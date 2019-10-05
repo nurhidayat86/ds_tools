@@ -1,5 +1,5 @@
 from lib.data_generator import generate_linear, add_multicolinear, add_timestamp, nullize_columns, add_timeflag
-from lib.exploration import nan_share
+from lib.exploration import mat_default_rate
 import pandas as pd
 import gc
 
@@ -11,7 +11,9 @@ if __name__ == '__main__':
     data = nullize_columns(data, data.columns[3:6], ratio=[0.2, 0.4, 0.5])
     data = add_timeflag(data, 'TIME')
     print(data.loc[data['MONTH']==201801,'num_2'])
-    nan_share(data, data.columns[3:6], 'MONTH')
+    # nan_share(data, data.columns[3:6], 'DAY')
+    # nan_mat(data, 'MONTH')
+    mat_default_rate(data, 'y', 'MONTH')
     # print(data)
     del data
     gc.collect()
