@@ -1,5 +1,5 @@
 from lib.data_generator import generate_linear, add_multicolinear, add_timestamp, nullize_columns, add_timeflag
-from lib.exploration import mat_default_rate
+from lib.exploration import show_monotonic_percentile
 import pandas as pd
 import gc
 
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     print(data.loc[data['MONTH']==201801,'num_2'])
     # nan_share(data, data.columns[3:6], 'DAY')
     # nan_mat(data, 'MONTH')
-    mat_default_rate(data, 'y', 'MONTH')
+    show_monotonic_percentile(data, 'y', 20)
     # print(data)
     del data
     gc.collect()
