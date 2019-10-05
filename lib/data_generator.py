@@ -93,10 +93,10 @@ def add_multicolinear(data, col, weight=1, noise=10):
 
 def add_timeflag(data, col_time, unit='both'):
     if unit == 'month':
-        data['MONTH'] = list(map(int,data[col_time].dt.strftime('%Y%m')))
+        data['MONTH'] = list(data[col_time].dt.strftime('%y-%m'))
     elif unit == 'day':
-        data['DAY'] = list(map(int,data[col_time].dt.strftime('%Y%m%d')))
+        data['DAY'] = list(data[col_time].dt.strftime('%y-%m-%d'))
     else:
-        data['MONTH'] = list(map(int, data[col_time].dt.strftime('%Y%m')))
-        data['DAY'] = list(map(int, data[col_time].dt.strftime('%Y%m%d')))
+        data['MONTH'] = list(data[col_time].dt.strftime('%y-%m'))
+        data['DAY'] = list(data[col_time].dt.strftime('%y-%m-%d'))
     return data
