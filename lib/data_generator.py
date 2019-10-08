@@ -100,3 +100,4 @@ def add_timeflag(data, col_time, unit='both'):
         data['MONTH'] = list(data[col_time].dt.strftime('%y-%m'))
         data['DAY'] = list(data[col_time].dt.strftime('%y-%m-%d'))
     return data
+

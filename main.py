@@ -1,5 +1,6 @@
 from lib.data_generator import generate_linear, add_multicolinear, add_timestamp, nullize_columns, add_timeflag
-from lib.exploration import show_monotonic_percentile
+from lib.exploration import show_corr_mat
+from lib.describe import kmeans_elbow
 import pandas as pd
 import gc
 
@@ -8,12 +9,15 @@ if __name__ == '__main__':
                            logistic=True)
     data = add_multicolinear(data,['num_1'])
     data = add_timestamp(data)
-    data = nullize_columns(data, data.columns[3:6], ratio=[0.2, 0.4, 0.5])
+    # data = nullize_columns(data, data.columns[3:6], ratio=[0.2, 0.4, 0.5])
     data = add_timeflag(data, 'TIME')
     print(data.loc[data['MONTH']==201801,'num_2'])
     # nan_share(data, data.columns[3:6], 'DAY')
     # nan_mat(data, 'MONTH')
-    show_monotonic_percentile(data, 'y', 20)
+    # show_monotonic_percentile(data, 'y', 20)
     # print(data)
+    # show_corr_mat(data, data.columns[2:5], method='pearson', min_periods=1)
+    df_power = kmeans_elbow(data, data.columns[3:6], 10, diff=False)
+    print(df_power)
     del data
     gc.collect()
