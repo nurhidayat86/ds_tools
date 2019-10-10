@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from lib.base_proc import corr_mat
 import seaborn as sns
 # sns.set()
 
@@ -101,13 +102,14 @@ def show_monotonic_percentile(data, col_target, n_bin=10):
     fig.tight_layout()
     fig.show()
 
-def show_corr_mat(data, col_features, method='spearman', min_periods=1):
-    cm = data[col_features].corr(method=method, min_periods=min_periods)
-    # print(cm.columns)
+def show_corr_mat(data, col_features, method='pearson', min_periods=1):
+    cm = corr_mat(data, col_features, method=method, min_periods=min_periods)
+
     fig, ax = plt.subplots()
     im = ax.matshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     xticklabel = cm.columns.tolist()
     yticklabel = cm.index.tolist()
+
     # ax.figure.colorbar(im, ax=ax)
     # We want to show all ticks...
     ax.set(
@@ -132,3 +134,5 @@ def show_corr_mat(data, col_features, method='spearman', min_periods=1):
                     color="white" if cm.iloc[i, j] > 0.5 or cm.iloc[i, j] < -0.5 else "black")
     fig.tight_layout()
     fig.show()
+
+
