@@ -1,7 +1,8 @@
 from lib.data_generator import generate_linear, add_multicolinear, add_timestamp, nullize_columns, add_timeflag
-from lib.exploration import show_corr_mat
-from lib.describe import kmeans_elbow
+from lib.exploration import show_corr_mat, lift_image, KS_image
+# from lib.describe import kmeans_elbow, hierarchial_clustering
 import pandas as pd
+# from lib.base_proc import produce_KS
 import gc
 
 if __name__ == '__main__':
@@ -17,7 +18,10 @@ if __name__ == '__main__':
     # show_monotonic_percentile(data, 'y', 20)
     # print(data)
     # show_corr_mat(data, data.columns[2:5], method='pearson', min_periods=1)
-    df_power = kmeans_elbow(data, data.columns[3:6], 10, diff=False)
-    print(df_power)
+    # df_power = kmeans_elbow(data, data.columns[3:6], 10, diff=False)
+    # print(df_power)
+    # hierarchial_clustering(data, data.columns[3:6], link='ward')
+    KS_image(data, data.columns[3], col_target='y', n_bin = 10)
+
     del data
     gc.collect()

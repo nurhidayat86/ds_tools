@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from lib.base_proc import corr_mat, produce_lift, produce_KS
 import seaborn as sns
 # sns.set()
 
@@ -101,13 +102,14 @@ def show_monotonic_percentile(data, col_target, n_bin=10):
     fig.tight_layout()
     fig.show()
 
-def show_corr_mat(data, col_features, method='spearman', min_periods=1):
-    cm = data[col_features].corr(method=method, min_periods=min_periods)
-    # print(cm.columns)
+def show_corr_mat(data, col_features, method='pearson', min_periods=1):
+    cm = corr_mat(data, col_features, method=method, min_periods=min_periods)
+
     fig, ax = plt.subplots()
     im = ax.matshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
     xticklabel = cm.columns.tolist()
     yticklabel = cm.index.tolist()
+
     # ax.figure.colorbar(im, ax=ax)
     # We want to show all ticks...
     ax.set(
@@ -132,3 +134,19 @@ def show_corr_mat(data, col_features, method='spearman', min_periods=1):
                     color="white" if cm.iloc[i, j] > 0.5 or cm.iloc[i, j] < -0.5 else "black")
     fig.tight_layout()
     fig.show()
+
+def lift_image(data, col_score, col_target='y', n_bin = 100):
+    lift_mat = produce_lift(data, col_score, col_target=col_target, n_bin=n_bin)
+    plt.figure()
+    plt.plot(list(lift_mat.index), list(lift_mat['lift']))
+    plt.plot(list(lift_mat.index), list(lift_mat['ideal']))
+    plt.show()
+
+def KS_image(data, col_score, col_target='y', n_bin = 10):
+    temp = produce_KS(data, col_score, col_target=col_target, n_bin=n_bin, returning='mat')
+    plt.figure()
+    plt.plot([f'{i}' for i in temp.index], temp['cum_0'])
+    plt.plot([f'{i}' for i in temp.index], temp['cum_1'])
+    plt.xticks(rotation=90)
+    plt.tight_layout()
+    plt.show()
